@@ -52,7 +52,7 @@ router.get('/api/:lang', function(req, res, next) {
 	if (validLangs.indexOf(lang) > -1) {
 		var shellCommand = 'pico2wave --lang=' + lang + ' -w public/' + fileName + '.wav "' + text + '"';
 		if (shell.exec(shellCommand).code !== 0) {
-			return res.send({error: 'Error creating file'});
+			return res.send({error: 'Error creating audio file with pico2wave. Did you installed SVOX?'});
 		} else {
 			return res.redirect('/' + fileName + '.wav');
 		}
