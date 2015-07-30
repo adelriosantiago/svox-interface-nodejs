@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var shell = require('shelljs');
-var Speaker = require('speaker');
 var fs = require("fs");
 var validator = require('validator');
 var md5 = require('MD5');
