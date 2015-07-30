@@ -16,7 +16,6 @@
     "no-captcha": "^1.0.0",
     "serve-favicon": "~2.3.0",
     "shelljs": "^0.5.1",
-    "speaker": "^0.2.5",
     "validator": "^3.42.0"
   }
 }
