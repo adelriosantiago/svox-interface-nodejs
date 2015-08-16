@@ -3,9 +3,10 @@ var router = express.Router();
 var shell = require('shelljs');
 var fs = require("fs");
 var validator = require('validator');
+var slug = require('slug');
 var md5 = require('md5');
 var NoCaptcha = require('no-captcha');
-var validLangs = ['en-US', 'en-GB', 'en-ES', 'it-IT'];
+var validLangs = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'de-DE', 'fr-FR'];
 var blacklistedIps = ['blacklisted ips go here, one IP per item'];
 
 noCaptcha = new NoCaptcha(process.env.NOCAPTCHA_SITE, process.env.NOCAPTCHA_SECRET);
@@ -47,12 +48,15 @@ router.get('/api/:lang', function(req, res, next) {
 	//Generate the audio file
 	var lang = req.params.lang;
 	var text = req.query.text.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-	var fileName = md5(text);
+	//var fileName = md5(text); //The old way naming
+	var fileName = slug(text);
+	
+	console.log(fileName);
 
 	if (validLangs.indexOf(lang) > -1) {
 		var shellCommand = 'pico2wave --lang=' + lang + ' -w public/' + fileName + '.wav "' + text + '"';
 		if (shell.exec(shellCommand).code !== 0) {
-			return res.send({error: 'Error creating audio file with pico2wave. Did you installed SVOX?'});
+			return res.send({error: 'Error creating audio file with pico2wave. Did you install SVOX?'});
 		} else {
 			return res.redirect('/' + fileName + '.wav');
 		}
