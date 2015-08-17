@@ -7,7 +7,7 @@ var slug = require('slug');
 var md5 = require('md5');
 var NoCaptcha = require('no-captcha');
 var validLangs = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'de-DE', 'fr-FR'];
-var blacklistedIps = ['blacklisted ips go here, one IP per item'];
+var blacklistedIps = []; //Blacklisted ips go here, one IP per item
 
 noCaptcha = new NoCaptcha(process.env.NOCAPTCHA_SITE, process.env.NOCAPTCHA_SECRET);
 
@@ -51,14 +51,18 @@ router.get('/api/:lang', function(req, res, next) {
 	//var fileName = md5(text); //The old way naming
 	var fileName = slug(text);
 	
-	console.log(fileName);
-
 	if (validLangs.indexOf(lang) > -1) {
 		var shellCommand = 'pico2wave --lang=' + lang + ' -w public/' + fileName + '.wav "' + text + '"';
-		if (shell.exec(shellCommand).code !== 0) {
-			return res.send({error: 'Error creating audio file with pico2wave. Did you install SVOX?'});
+		console.log('Params: ' + lang + ' - ' + fileName + ' - ' + text);
+		console.log('Shell command: ' + shellCommand);
+		if (fileName != '') {
+			if (shell.exec(shellCommand).code !== 0) {
+				return res.send({error: 'Error creating audio file. SVOX is probably not installed.'});
+			} else {
+				return res.redirect('/' + fileName + '.wav');
+			}	
 		} else {
-			return res.redirect('/' + fileName + '.wav');
+			return res.send({error: 'Error creating audio file. Empty file name.'});
 		}
 	} else {
 		return res.send({error: lang + ' is not a valid language, valid languages are ' + validLangs.join(', ')});
