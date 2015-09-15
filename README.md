@@ -4,7 +4,7 @@ With this Node.js web interface you can generate WAV files directly from the SVO
 
 ![](http://adelriosantiago.com/articles/images/tts-final.png)
 
-Obviously the voice is not exactly the *most natural voice ever*, however I think that SVOX pronunciation is far superior than other TTS's out there like Festival and eSpeak.
+Obviously the voice is ++not++ exactly the most natural voice ever, however I think that SVOX pronunciation is far superior than other TTS's out there like Festival and eSpeak.
 
 Play and generate some words with the demo at: [tts.adelriosantiago.com](http://tts.adelriosantiago.com)
 
