@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+require('dotenv').load(); //Load environment variables
+ 
 var app = require('../app');
 var debug = require('debug')('svoxtts:server');
 var http = require('http');
