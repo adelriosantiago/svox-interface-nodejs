@@ -26,6 +26,7 @@
 
         <!-- Content -->
 		<h1>SVOX Text to Speech interface in Node.js</h1>
+		<p>Generate WAV files directly from the SVOX speech engine. Read the theory at <a href='http://www.adelriosantiago.com/blog/text-to-speech#eng'>the blog post</a></p>
 		<div>
 			<p>Language:</p>
 			<select id='language_selector'>
@@ -42,13 +43,18 @@
 			<p>Text to convert:</p>			
 			<input id="text_to_convert" type="text" value="Good morning"/>
 			<p style='font-size: 0.8em; color: gray;'><span>Hint: </span><span id='hintbox'>Hello world</span></p>
+			<p id='err_max_chars' style='display: none;'>Info: Please enter 250 characters or less.</p>
+			<p id='err_special_chars' style='display: none;'>Info: Special characters are trimmed.</p>			
 		</div>
 		<br/>
 		<div>
-			<p>URL call:</p>
+			<p>Get resource:</p>
+			<p style='font-size: 0.8em; color: gray;'><span>Use this to download the file on your computer or microcontroller.</span></p>
 			<a id='api_call' href="#" target="_blank">#</a>
-			<p id='err_max_chars' style='display: none;'>Info: Please enter 250 characters or less.</p>
-			<p id='err_special_chars' style='display: none;'>Info: Special characters are trimmed.</p>
+			
+			<!-- <p>Play resource:</p>
+			<p style='font-size: 0.8em; color: gray;'><span>Use this to play the file, won't work on all platforms.</span></p>
+			<a id='api_call_play' href="#" target="_blank">#</a> -->
 		</div>
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script>
