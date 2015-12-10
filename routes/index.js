@@ -61,7 +61,7 @@ router.get('/api/:lang', function(req, res, next) {
 				return res.send({error: 'Error creating audio file. SVOX is probably not installed.'});
 			} else {
 				if (play == 'true') {
-					return res.render('player', {path: fileName});
+					return res.render('player', {path: fileName, lang: lang});
 				} else {
 					return res.redirect('/' + fileName + '.wav');
 				}
