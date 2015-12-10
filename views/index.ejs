@@ -49,13 +49,12 @@
 		</div>
 		<br/>
 		<div>
-			<p>Download resource:</p>			
+			<p>Play:</p>
+			<a id='api_call_play' href="#" target="_blank">#</a>
+			
+			<p>Get:</p>
 			<a id='api_call' href="#" target="_blank">#</a>
 			<p style='font-size: 0.8em; color: gray;'><span>You would use this when calling from a MCU.</span></p>
-			
-			<!-- <p>Play resource:</p>
-			<a id='api_call_play' href="#" target="_blank">#</a>
-			<p style='font-size: 0.8em; color: gray;'><span>Use this to play the file, won't work on all platforms.</span></p> -->
 		</div>
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script>
@@ -75,6 +74,9 @@
 				var callString = 'http://' + hostname + "/api/" + lang + "?text=" + text;
 				$('#api_call').text(callString);
 				$('#api_call').attr('href', callString);
+				callString += '&play=true';
+				$('#api_call_play').text(callString);
+				$('#api_call_play').attr('href', callString);
 				$('#hintbox').text(lang_hints[lang]);
 
 				//Error advise
