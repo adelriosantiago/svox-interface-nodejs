@@ -48,6 +48,7 @@ router.get('/api/:lang', function(req, res, next) {
 	//Generate the audio file
 	var lang = req.params.lang;
 	var text = req.query.text.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+	var play = req.query.play;
 	//var fileName = md5(text); //The old way naming
 	var fileName = slug(text);
 	
@@ -59,7 +60,11 @@ router.get('/api/:lang', function(req, res, next) {
 			if (shell.exec(shellCommand).code !== 0) {
 				return res.send({error: 'Error creating audio file. SVOX is probably not installed.'});
 			} else {
-				return res.redirect('/' + fileName + '.wav');
+				if (play == 'true') {
+					return res.render('player', {path: fileName});
+				} else {
+					return res.redirect('/' + fileName + '.wav');
+				}
 			}	
 		} else {
 			return res.send({error: 'Error creating audio file. Empty file name.'});
