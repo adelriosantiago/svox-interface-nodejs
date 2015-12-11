@@ -39,11 +39,10 @@ router.get('/api/:lang', function(req, res, next) {
 		return res.render('unblock', {captcha_field: noCaptcha.toHTML()});
 	}
 	var prob = Math.random();
-	if (prob <= 0.1) {
+	if (prob <= 0.001) {
 		blacklistedIps.push(ip);
-	}
-	console.log(ip);
-	console.log(prob);
+		console.log("Blacklisted ip: " + ip);
+	}	
 	
 	//Generate the audio file
 	var lang = req.params.lang;
