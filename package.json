@@ -1,9 +1,10 @@
 {
-  "name": "svoxtts",
+  "name": "svox-interface-nodejs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "forever --verbose --watch --watchDirectory ./routes ./bin/www"
+    "start": "forever --verbose --uid \"svox-interface-nodejs\" --watch --watchDirectory ./routes ./bin/www"
+	
   },
   "dependencies": {
     "body-parser": "~1.13.2",
