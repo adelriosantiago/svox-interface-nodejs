@@ -1,6 +1,6 @@
 {
   "name": "svox-interface-nodejs",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "forever --verbose --uid \"svox-interface-nodejs\" --watch --watchDirectory ./routes ./bin/www"
