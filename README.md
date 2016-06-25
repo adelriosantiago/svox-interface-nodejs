@@ -18,6 +18,7 @@ Note that the voice is *not* exactly the most natural voice ever, however SVOX e
 
  - Clone the project
  - Install the *pico2wave* package
+ - Install the *forever* package globally wth `npm install -g forever`
  - Run `npm install`
  - Run `npm start`
  - Go to localhost:8999
@@ -26,6 +27,9 @@ Tested on:
  - Ubuntu 12.04
  - Ubuntu 12.10
 
+### Troubleshoot
 
+ - forever: not found
+ Install [forever](https://www.npmjs.com/package/forever) with `npm install -g forever` to ensure that that a given node script runs continuously.
 
 
