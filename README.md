@@ -16,7 +16,7 @@ Note that the voice is *not* exactly the most natural voice ever, however SVOX e
 
 ### Installation
 
- - Clone the project
+ - Clone the project, use the "recaptcha" branch if you want to implement a captcha test every N queries
  - Install the *pico2wave* package
  - Install the *forever* package globally wth `npm install -g forever`
  - Run `npm install`
@@ -30,6 +30,7 @@ Tested on:
 ### Troubleshoot
 
  - forever: not found
+ 
  Install [forever](https://www.npmjs.com/package/forever) with `npm install -g forever` to ensure that that a given node script runs continuously.
 
 
