@@ -8,6 +8,8 @@ var md5 = require('md5');
 var validLangs = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'de-DE', 'fr-FR'];
 
 function sanitize(input) {
+	if (!input) return "";
+	
 	return input.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');;
 }
 
@@ -21,7 +23,7 @@ router.get('/api/:lang', function(req, res, next) {
 	var text = sanitize(req.query.text);
 	var play = sanitize(req.query.play);
 	//var fileName = md5(text); //The old way naming
-	var fileName = slug(text);
+	var fileName = slug(text) + "-" + slug(lang);
 	
 	if (validLangs.indexOf(lang) > -1) {
 		var shellCommand = 'pico2wave --lang=' + lang + ' -w public/' + fileName + '.wav "' + text + '"';
