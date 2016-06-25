@@ -7,15 +7,19 @@ var slug = require('slug');
 var md5 = require('md5');
 var validLangs = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'de-DE', 'fr-FR'];
 
+function sanitize(input) {
+	return input.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');;
+}
+
 router.get('/', function(req, res, next) {
 	return res.render('index', {hostname: req.headers.host, languages : validLangs});
 });
 
 router.get('/api/:lang', function(req, res, next) {
 	//Generate the audio file
-	var lang = req.params.lang;
-	var text = req.query.text.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-	var play = req.query.play;
+	var lang = req.params.lang.substring(0, 250).replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, ''); //Different sanitization here
+	var text = sanitize(req.query.text);
+	var play = sanitize(req.query.play);
 	//var fileName = md5(text); //The old way naming
 	var fileName = slug(text);
 	
