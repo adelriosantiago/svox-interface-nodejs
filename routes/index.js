@@ -18,6 +18,12 @@ if (captchaSiteKey && captchaSecretKey) {
 	console.log("Using captcha");
 }
 
+function sanitize(input) {
+	if (!input) return "";
+	
+	return input.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+}
+
 router.get('/', function(req, res, next) {
 	return res.render('index', {hostname: req.headers.host, languages : validLangs});
 });
@@ -40,7 +46,6 @@ router.post('/unblock', function(req, res, next) {
 });
 
 router.get('/api/:lang', function(req, res, next) {
-	
 	if (noCaptcha) {
 		//Check for blacklisted ips
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -53,13 +58,13 @@ router.get('/api/:lang', function(req, res, next) {
 			console.log("Blacklisted ip: " + ip);
 		}
 	}
-	
+
 	//Generate the audio file
-	var lang = req.params.lang;
-	var text = req.query.text.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-	var play = req.query.play;
+	var lang = req.params.lang.substring(0, 250).replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, ''); //Different sanitization here
+	var text = sanitize(req.query.text);
+	var play = sanitize(req.query.play);
 	//var fileName = md5(text); //The old way naming
-	var fileName = slug(text);
+	var fileName = slug(text) + "-" + slug(lang);
 	
 	if (validLangs.indexOf(lang) > -1) {
 		var shellCommand = 'pico2wave --lang=' + lang + ' -w public/' + fileName + '.wav "' + text + '"';
@@ -67,7 +72,7 @@ router.get('/api/:lang', function(req, res, next) {
 		console.log('Shell command: ' + shellCommand);
 		if (fileName != '') {
 			if (shell.exec(shellCommand).code !== 0) {
-				return res.send({error: 'Error creating audio file. SVOX is probably not installed.'});
+				return res.send({error: 'Error creating audio file. Did you install SVOX?'});
 			} else {
 				if (play == 'true') {
 					return res.render('player', {path: fileName, lang: lang});
