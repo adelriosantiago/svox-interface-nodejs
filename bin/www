@@ -3,6 +3,8 @@
 /**
  * Module dependencies.
  */
+var dotenv = require('dotenv');
+dotenv.load();
 
 var app = require('../app');
 var debug = require('debug')('svoxtts:server');
@@ -86,5 +88,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
+
 }
