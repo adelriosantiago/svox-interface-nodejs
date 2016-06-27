@@ -5,11 +5,18 @@ var fs = require("fs");
 var validator = require('validator');
 var slug = require('slug');
 var md5 = require('md5');
-var NoCaptcha = require('no-captcha');
 var validLangs = ['en-US', 'en-GB', 'es-ES', 'it-IT', 'de-DE', 'fr-FR'];
-var blacklistedIps = []; //Blacklisted ips go here, one IP per item
 
-noCaptcha = new NoCaptcha(process.env.NOCAPTCHA_SITE, process.env.NOCAPTCHA_SECRET);
+//Captcha configuration
+var noCaptcha;
+var blacklistedIps = []; //Blacklisted ips go here, one IP per item
+var captchaSiteKey = process.env.NOCAPTCHA_SITE;
+var captchaSecretKey = process.env.NOCAPTCHA_SECRET;
+if (captchaSiteKey && captchaSecretKey) {
+	var NoCaptcha = require('no-captcha');
+	noCaptcha = new NoCaptcha(process.env.NOCAPTCHA_SITE, process.env.NOCAPTCHA_SECRET);
+	console.log("Using captcha");
+}
 
 router.get('/', function(req, res, next) {
 	return res.render('index', {hostname: req.headers.host, languages : validLangs});
@@ -21,7 +28,7 @@ router.post('/unblock', function(req, res, next) {
 		remoteip: req.connection.remoteAddress
 	};
 	
-	noCaptcha.verify(data, function(err, resp){
+	noCaptcha.verify(data, function(err, resp) {
 		if (err === null) {
 			var index = blacklistedIps.indexOf(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 			if (index > -1) {
@@ -33,16 +40,19 @@ router.post('/unblock', function(req, res, next) {
 });
 
 router.get('/api/:lang', function(req, res, next) {
-	//Check for blacklisted ips
-	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	if (blacklistedIps.indexOf(ip) > -1) {
-		return res.render('unblock', {captcha_field: noCaptcha.toHTML()});
+	
+	if (noCaptcha) {
+		//Check for blacklisted ips
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		if (blacklistedIps.indexOf(ip) > -1) {
+			return res.render('unblock', {captcha_field: noCaptcha.toHTML()});
+		}
+		var prob = Math.random();
+		if (prob <= 0.001) {
+			blacklistedIps.push(ip);
+			console.log("Blacklisted ip: " + ip);
+		}
 	}
-	var prob = Math.random();
-	if (prob <= 0.001) {
-		blacklistedIps.push(ip);
-		console.log("Blacklisted ip: " + ip);
-	}	
 	
 	//Generate the audio file
 	var lang = req.params.lang;
