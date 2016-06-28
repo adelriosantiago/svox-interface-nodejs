@@ -14,7 +14,7 @@ var captchaSiteKey = process.env.NOCAPTCHA_SITE;
 var captchaSecretKey = process.env.NOCAPTCHA_SECRET;
 if (captchaSiteKey && captchaSecretKey) {
 	var NoCaptcha = require('no-captcha');
-	noCaptcha = new NoCaptcha(process.env.NOCAPTCHA_SITE, process.env.NOCAPTCHA_SECRET);
+	noCaptcha = new NoCaptcha(captchaSiteKey, captchaSecretKey);
 	console.log("Using captcha");
 }
 
@@ -29,6 +29,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/unblock', function(req, res, next) {
+    if (!noCaptcha) {
+        return res.redirect('/');
+    }
+    
 	data = {
 		response: req.body['g-recaptcha-response'],
 		remoteip: req.connection.remoteAddress
