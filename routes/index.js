@@ -19,16 +19,22 @@ if (captchaSiteKey && captchaSecretKey) {
 }
 
 function sanitize(input) {
+	'use strict'
+	
 	if (!input) return "";
 	
 	return input.substring(0, 250).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 }
 
 router.get('/', function(req, res, next) {
+	'use strict'
+	
 	return res.render('index', {hostname: req.headers.host, languages : validLangs});
 });
 
 router.post('/unblock', function(req, res, next) {
+	'use strict'
+
     if (!noCaptcha) {
         return res.redirect('/');
     }
@@ -50,6 +56,8 @@ router.post('/unblock', function(req, res, next) {
 });
 
 router.get('/api/:lang', function(req, res, next) {
+	'use strict'
+	
 	if (noCaptcha) {
 		//Check for blacklisted ips
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
