@@ -10,16 +10,16 @@ Note that the voice is *not* exactly the most natural voice ever, however SVOX e
 
 ### Prerequisites
 
- - UNIX based machine
- - Node
+ - A UNIX based machine
  - The *pico2wave* package
+ - Node.js
 
 ### Installation
 
- - Clone the project, use the "recaptcha" branch if you want to implement a captcha test every N queries
+ - Clone the project
  - Install the *pico2wave* package
  - Install the *forever* package globally wth `npm install -g forever`
- - (If using the "recaptcha" version) Set the keys for "NOCAPTCHA_SITE" and "NOCAPTCHA_SECRET" from your reCatpcha configuration variable names in a .env file (see .envsample for the sample structure)
+ - (Optional) Set the keys for "NOCAPTCHA_SITE" and "NOCAPTCHA_SECRET" from your reCatpcha configuration variable names in a .env file (see .envsample for the sample structure) to use Google's reCatpcha
  - Run `npm install`
  - Run `npm start`
  - Go to localhost:8999
