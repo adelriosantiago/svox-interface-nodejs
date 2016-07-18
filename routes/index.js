@@ -39,7 +39,7 @@ router.post('/unblock', function(req, res, next) {
         return res.redirect('/');
     }
     
-	data = {
+	var data = {
 		response: req.body['g-recaptcha-response'],
 		remoteip: req.connection.remoteAddress
 	};
