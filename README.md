@@ -18,6 +18,7 @@ Note that the voice is *not* exactly the most natural voice ever, however SVOX e
 
  - Clone the project
  - Install the *pico2wave* package
+ - Install the *libttspico-utils* package
  - Install the *forever* package globally wth `npm install -g forever`
  - (Optional) Set the keys for "NOCAPTCHA_SITE" and "NOCAPTCHA_SECRET" from your reCatpcha configuration variable names in a .env file (see .envsample for the sample structure) to use Google's reCatpcha
  - Run `npm install`
